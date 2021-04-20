@@ -1,0 +1,75 @@
+.book-container {
+    stroke: var(--primary);
+
+    width: 200px;
+    height: 200px;
+
+    background-color: blue;
+    position: absolute;
+    top: 0;
+    right: 0;
+    left: 0;
+    align-self: center;
+}
+
+.book-container svg {
+   width: 100%;
+   height: auto;
+}
+
+#e1, #e2 {
+    fill: var(--primary);
+}
+
+ #page3, #page4, #page5, #page6 {
+    opacity: 0;
+}
+
+
+
+#page3 {
+    animation-name: p3;
+    animation-duration: 4s;
+    animation-iteration-count: infinite;
+    animation-delay: 0s;
+}
+
+#page4 {
+    animation-name: p3;
+    animation-duration: 4s;
+    animation-iteration-count: infinite;
+    animation-delay: 1s;
+}
+
+#page5 {
+    animation-name: p3;
+    animation-duration: 4s;
+    animation-iteration-count: infinite;
+    animation-delay: 2s;
+}
+
+#page6 {
+    animation-name: p3;
+    animation-duration: 4s;
+    animation-iteration-count: infinite;
+    animation-delay: 3s;
+}
+
+@keyframes p3 {
+    0% {
+        opacity: 0;
+    }
+    20% {
+        opacity: 1;
+    }
+
+    30% {
+        opacity: 0;
+    }
+    100% {
+        opacity: 0;
+    }
+}
+
+
+
