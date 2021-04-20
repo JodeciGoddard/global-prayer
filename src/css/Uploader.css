@@ -1,0 +1,50 @@
+input.uploader-input {
+    display: none;
+}
+
+.uploader-container {
+    display: flex;
+    width: 100%;
+    margin-bottom: 10px;
+}
+
+.uploader-label {
+    width: 100%;
+}
+
+.uploader-label p {    
+    margin: 0;
+    font-weight: 500;
+}
+
+.uploader-output {
+    color: var(--text);
+    font-family: var(--secondary-font);
+    font-weight: 500;
+    font-size: 0.9rem;
+    border-bottom: 2px solid var(--primary);
+
+    background-color: #fafafa;
+}
+
+.uploader-progress {
+    height: 3px;
+    margin-top: 3px;
+    border-radius: 10px;
+    background-color: rgba(36, 216, 12, 0.938);
+}
+
+.upload-button {
+    font-size: 0.7rem;
+    padding: 5px;
+    margin: 0;
+    height: 90%;
+    border-radius: 3px;
+    align-self: center;
+}
+
+@media only screen and (max-width: 600px) {
+    .uploader-output  {
+        border-bottom: 1px solid var(--primary);
+    }
+  }

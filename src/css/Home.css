@@ -1,0 +1,184 @@
+.home-container {
+    display: flex;
+    position: relative;
+    flex-direction: column;
+    flex: 1;
+
+    align-items: center;
+    
+    color: var(--text);
+    background-color: var(--background);
+}
+
+.home-card {
+    margin-top: 60px;
+    width: 90%;
+    max-width: 500px;
+
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    grid-template-rows: repeat(6, 1fr);
+
+    box-shadow: var(--regular-shadow);
+
+    padding: 5px;
+}
+
+.home-card-left {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    grid-row: 1 / 5;
+}
+
+.home-card-right {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    grid-row: 1 / 5;
+
+    /* font-family: var(--secondary-font); */
+    padding: 5px;
+}
+
+.home-card-right p, .home-card-right h4, .home-card-right span{
+    margin: 0;
+    padding: 3px;
+}
+
+
+.home-card-footer {
+    display: flex;
+    grid-column: 1 / 3;
+    grid-row: 5 / 7;
+}
+
+.home-card-profile {
+    width: 90%;
+    padding-top: 90%; /* 1:1 Aspect Ratio */
+
+    border-radius: 100%;
+    
+    background-size: cover;
+    background-position: center; /* Center the image */
+    background-repeat: no-repeat; /* Do not repeat the image */
+}
+
+.home-card-date {
+    font-weight: 600;  
+}
+
+.home-card h4 {
+    color: var(--primary);
+}
+
+.home-card-title {
+    color: var(--text-dark);
+    font-weight: 500;
+}
+
+.home-card span {
+    font-size: 0.9rem;
+}
+
+.home-card-downloadables {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    border-right: 1px solid #ccc;
+    padding-left: 5px;
+}
+
+.home-card-downloadables h4 {
+    margin: 0;
+    padding: 10px;
+    align-self: flex-end;
+}
+
+.home-card-downloadables a {
+    font-size: 0.9rem; 
+}
+
+.home-card-button {
+    width: 30%;
+    padding: 5px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+.home-card-button button {
+    width: 100px;
+    height: 100px;
+    border-radius: 50%;
+    background-color: var(--primary);
+    border: none;
+    color: #fff;
+    font-family: var(--primary-font);
+    font-weight: 500;
+    box-shadow: var(--regular-shadow);
+}
+
+.home-card-button button:active {
+    background-color: var(--primary-variant);
+}
+
+/* ----------will be converted to components ------------*/
+
+
+.home-bible-reading {
+    margin: 4px;
+    color: var(--text-light);
+    font-size: 0.9rem;
+    font-weight: 400;
+}
+
+.home-bible-reading.small {
+    font-size: 0.7rem;
+}
+
+.home-timezone {
+    margin: 4px;
+    margin-top: 10px;
+    color: var(--text-light);
+    font-size: 0.9rem;
+    font-weight: 500;
+}
+
+.home-timezone.small {
+    margin-top: 4px;
+    font-size: 0.7rem;
+    font-weight: 400;
+}
+
+/* ------------------------------------------------------ */
+
+@media only screen and (max-width: 600px) {
+    .home-card-date {
+        font-size: 0.8rem;
+    }
+
+    .home-card h4 {
+        font-size: 0.9rem;
+    }
+
+    .home-card-title {
+        font-size: 0.8rem;
+    }
+
+    .home-card span {
+        font-size: 0.7rem;
+    }
+
+    .home-card-downloadables a {
+        font-size: 0.7rem; 
+    }
+
+    .home-card-button button {
+        width: 75px;
+        height: 75px;
+    }
+
+  }

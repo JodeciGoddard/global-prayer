@@ -1,0 +1,28 @@
+.button-container {
+    display: flex;
+    color: var(--text-light);
+    font-weight: bold;
+    padding: 10px;
+    justify-content: center;
+    align-items: center;
+    background-color: var(--primary);
+    cursor: pointer;
+    border-radius: 10px;
+}
+
+.button-container:hover {
+    background-color: var(--primary-variant);
+}
+
+.button-container.large {
+    min-height: 75px;
+}
+
+
+
+
+@media only screen and (max-width: 600px) {
+    .button-container.large {
+        min-height: 60px;
+    }
+  }
