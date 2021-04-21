@@ -14,6 +14,7 @@ const Sidebar = ({ visible, backClick }) => {
             <div className="sidebar-bar">
                 <p onClick={() => { history.push('/home') }}>Home</p>
                 <p>Settings</p>
+                {/* <p onClick={() => history.push("/upload data")}>Upload Data</p> */}
                 <p onClick={logUserOut}>Sign Out</p>
             </div>
         </div>

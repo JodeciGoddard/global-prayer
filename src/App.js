@@ -9,6 +9,7 @@ import './App.css';
 import Login from './screens/Login';
 import SignUp from './screens/SignUp';
 import Home from './screens/Home';
+import UploadData from './screens/Settings/UploadData';
 
 function App() {
   return (
