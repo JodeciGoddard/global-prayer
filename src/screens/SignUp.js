@@ -3,7 +3,7 @@ import '../css/SignUp.css';
 import CustomButton from '../components/CustomButton';
 import CustomInput from '../components/CustomInput';
 import { useHistory } from 'react-router-dom';
-import { createUser, createProfile, getStorageRef, updateProfile } from '../api/Firebase';
+import { createUser, createProfile, getStorageRef, updateProfile, getDB } from '../api/Firebase';
 import { userToken } from '../State';
 import { useRecoilState } from 'recoil';
 import { HiLocationMarker } from 'react-icons/hi';
@@ -22,6 +22,10 @@ const SignUp = () => {
     const [error, setError] = useState('');
     const [city, setCity] = useState('');
     const [country, setCountry] = useState('');
+    const [utcOffset, setUtcOffset] = useState('');
+
+    //public array
+    const [timezones, setTimezones] = useState([]);
 
     const [image, setImage] = useState();
     const [progress, setProgress] = useState(0);
@@ -31,6 +35,24 @@ const SignUp = () => {
 
     const [user, setUser] = useRecoilState(userToken);
     let history = useHistory();
+
+    useEffect(() => {
+        if (timezones && timezones.length <= 0) {
+            let db = getDB();
+            let ref = db.collection('public_globals').doc('timezones');
+
+            ref.get().then(doc => {
+                if (doc.exists) {
+                    setTimezones(doc.data().names);
+                    // console.log("public data: ", doc.data().names);
+                } else {
+                    setError('Search Error: Please reload');
+                }
+            }).catch(error => {
+                setError("Network Error: " + error.code);
+            });
+        }
+    }, [])
 
     const signup = () => {
         //validation
@@ -58,7 +80,8 @@ const SignUp = () => {
                 city: city,
                 country: country,
                 email: username,
-                profileImage: profileImage
+                profileImage: profileImage,
+                timezone: utcOffset
             };
 
 
@@ -109,7 +132,9 @@ const SignUp = () => {
             setCity(data.city);
             setCountry(data.country_name);
             setRegion(`${data.city}, ${data.country_name}`);
+            setUtcOffset(getTimeZone(data.utc_offset));
         });
+
     }
 
     const updateProfileImage = (id) => {
@@ -155,6 +180,19 @@ const SignUp = () => {
         if (confirm !== password) return 2;
 
         return 0;
+    }
+
+    const getTimeZone = (utc) => {
+        let t = ["+12", "+11", "+10", "+09", "+08", "+07", "+06", "+05", "+04", "+03", "+02", "+01", "00", "-01", "-02", "-03", "-04", "-05", "-06", "-07", "-08", "-09", "-10", "-11"];
+        let u = utc.slice(0, -2);
+
+        for (let i = 0; i < timezones.length; i++) {
+            if (u.includes(t[i])) {
+                return timezones[i];
+            }
+        }
+
+        return timezones[12];
     }
 
     return (
@@ -241,6 +279,8 @@ const SignUp = () => {
                 <div className="signup-card-footer">
                     <p className="signup-error">{error}</p>
                 </div>
+
+
             </div>
         </div>
     );

@@ -10,6 +10,7 @@ const UploadData = () => {
     const [loading, setLoading] = useState(false);
     const [results, setResults] = useState();
     const [response, setResponse] = useState('');
+    const [names, setNames] = useState();
 
     const handleChange = e => {
 
@@ -18,11 +19,13 @@ const UploadData = () => {
             setLoading(true);
             var text = reader.result;
             var words = convertRawtoArray(text);
-            var objA = createObjArray(words);
+            var n = getNames(words);
+            // var objA = createObjArray(words);
             // console.log("text: ", text);
-            // console.log("words: ", words);
-            console.log("objects: ", objA);
-            setResults(objA);
+            console.log("names: ", n);
+            // console.log("objects: ", objA);
+            // setResults(objA);
+            setNames(n)
             setLoading(false);
         }
 
@@ -106,6 +109,43 @@ const UploadData = () => {
         return objs;
     }
 
+    const getNames = (array) => {
+        let n = [];
+
+        let line = 0;
+        let index = 0;
+        let maxLength = array.length;
+        let register = 0;
+
+        for (index = 0; index < maxLength; index++) {
+            var item = array[index];
+            //add new line if new line character found
+            if (item.includes('\n')) {
+                line++;
+                register = 0;
+            }
+
+            //if it just a solo new line go to next item
+            if (item.includes('\n') && item.trim() === '') {
+                register++;
+                continue;
+            }
+
+
+            //skip first line
+            if (line === 0) continue;
+
+            //get the heading names
+            if (line === 1) {
+                n.push(item);
+                continue;
+            }
+
+            return n;
+        }
+
+    }
+
     const submit = () => {
         const db = getDB();
 
@@ -124,6 +164,17 @@ const UploadData = () => {
 
     }
 
+    const saveNames = () => {
+        const db = getDB();
+
+        db.collection('public_globals').doc('test').set({ names: names }).then(() => {
+            console.log('complete');
+            setResponse("complete");
+        }).catch(err => {
+            setResponse(err.toString());
+        })
+    }
+
     return (
         <div className="updata-container">
             <Navbar />
@@ -133,7 +184,7 @@ const UploadData = () => {
             <form className="updata-form">
                 <label>CSV input</label>
                 <input type="file" onChange={handleChange} accept=".csv" />
-                <CustomButton onClick={submit}>Upload Data</CustomButton>
+                <CustomButton onClick={saveNames}>Upload Data</CustomButton>
             </form>
 
             <p>{response}</p>

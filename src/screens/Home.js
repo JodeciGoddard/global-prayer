@@ -35,6 +35,12 @@ const Home = () => {
         backgroundColor: 'grey',
     }
 
+    const smallTimeZone = (t) => {
+        let z = t.split("WORLD TIME ZONE ");
+
+        return z[1];
+    }
+
     return (
         <div className="home-container">
             <Navbar />
@@ -50,7 +56,7 @@ const Home = () => {
                     <p className="home-card-title">Region</p>
                     <span>{profile && profile.region}</span>
                     <p className="home-card-title">Time Zone</p>
-                    <span>+12</span>
+                    <span>{profile && smallTimeZone(profile.timezone)}</span>
                     <p className="home-card-title">Daily Reading</p>
                     <span>PSALM 123 - 132</span>
                 </div>
