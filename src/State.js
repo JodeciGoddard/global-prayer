@@ -10,3 +10,8 @@ export const userProfile = atom({
     key: 'userProfile',
     default: {}
 });
+
+export const systemMessage = atom({
+    key: 'systemMessage',
+    default: "",
+});

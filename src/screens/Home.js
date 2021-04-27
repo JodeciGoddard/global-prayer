@@ -4,7 +4,7 @@ import Navbar from '../components/Navbar';
 import { useRecoilState } from 'recoil';
 import { userProfile, userToken } from '../State';
 import { Link, useHistory } from 'react-router-dom';
-import { getProfile, getBibleReading } from '../api/Firebase';
+import { getProfile, getBibleReading, getDB } from '../api/Firebase';
 import profilePicture from '../images/img-person-placeholder.jpg';
 import Card from '../components/Card.js';
 import BibleImage from '../images/bible.jpg';
@@ -19,6 +19,7 @@ const Home = () => {
     const [user, setUser] = useRecoilState(userToken);
 
     const [reading, setReading] = useState();
+    const [links, setLinks] = useState();
     const [todaysReading, setTodaysReading] = useState();
 
     const [loading, setLoading] = useState(false);
@@ -30,6 +31,7 @@ const Home = () => {
         if (user !== 'none') {
             getProfile(user.uid, (data) => {
                 // console.log("profile set");
+                loadLinks();
                 setProfile(data);
                 loadBibleReading(data);
             }, err => {
@@ -66,6 +68,22 @@ const Home = () => {
         }, (err) => {
             alert(err);
         })
+    }
+
+    const loadLinks = () => {
+        const ref = getDB().collection('public_globals').doc('links');
+
+        ref.get().then(doc => {
+            if (doc.exists) {
+                var values = Object.values(doc.data());
+                setLinks(values);
+            } else {
+                setLinks([]);
+            }
+        }).catch(error => {
+            alert('Network Error:: pub global/links');
+            console.log(error);
+        });
     }
 
     const getBibleReadingByDay = day => {
@@ -150,19 +168,16 @@ const Home = () => {
 
             </Card>}
 
-            <Card title="Global Prayer Links" bg={VeniceImage} overlay="rgba(0,0,0,0.45)">
-                <LinkItem
-                    url="#"
-                    title="Prayer and Intercession - 6pm"
-                />
-                <LinkItem
-                    url="#"
-                    title="Bible Reading & Proclamation - 7pm"
-                />
-                <LinkItem
-                    url="#"
-                    title="Praise & Worship - 8pm"
-                />
+            <Card title="Global Prayer Links" bg={VeniceImage} overlay="rgba(0,0,0,0.45)" hideShowMore>
+                {links && links.map(item => {
+                    return (
+                        <LinkItem
+                            url={item.url}
+                            title={item.title}
+                            key={item.title}
+                        />
+                    );
+                })}
             </Card>
 
             <Card title="Countries and Time Zones" bg={AlpineImage} overlay="rgba(0,0,0,0.45)" >

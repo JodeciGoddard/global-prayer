@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import '../css/Card.css';
 
-const Card = ({ children, title, bg, overlay }) => {
+const Card = ({ children, title, bg, overlay, hideShowMore }) => {
 
     let backgroundStyle = {
         backgroundImage: `url(${bg})`,
@@ -13,9 +13,9 @@ const Card = ({ children, title, bg, overlay }) => {
             <div className="card-header">
                 {title}
             </div>
-            <div className="card-show">
+            {!hideShowMore && <div className="card-show">
                 Show More
-            </div>
+            </div>}
             {children}
         </div>
     );

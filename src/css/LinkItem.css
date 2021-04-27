@@ -17,6 +17,8 @@
 .link-container a {
     color: var(--text-light);
     font-size: 0.8rem;
+    padding: 5px;
+    width: 70%;
 }
 
 .link-container a:visited {

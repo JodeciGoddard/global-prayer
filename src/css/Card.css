@@ -19,6 +19,14 @@
     background-position: center; /* Center the image */
     background-repeat: no-repeat; /* Do not repeat the image */
     background-blend-mode: overlay;
+
+    transition: all 0.4s ease;
+}
+
+.card-container:active {
+    box-shadow: var(--regular-shadow);
+    transform: translateY(4%);
+    transition: all 0.4s ease;
 }
 
 .card-header {

@@ -5,7 +5,7 @@ const CustomInput = ({ readonly, type, label, placeholder, onChange, value, id, 
     return (
         <div className={containerClass + " custom-input-container"}>
             <label htmlFor={id} className={labelClass + " custom-label"} >{label}</label>
-            <input readonly={readonly} className={`custom-input ${inputClass}`} id={id} type={type} placeholder={placeholder} value={value} onChange={onChange} />
+            <input readOnly={readonly} className={`custom-input ${inputClass}`} id={id} type={type} placeholder={placeholder} value={value} onChange={onChange} />
         </div>
 
     );

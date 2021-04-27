@@ -9,6 +9,7 @@ import './App.css';
 import Login from './screens/Login';
 import SignUp from './screens/SignUp';
 import Home from './screens/Home';
+import SystemToast from './components/SystemToast'
 import UploadData from './screens/Settings/UploadData';
 
 function App() {
@@ -21,6 +22,8 @@ function App() {
             <Route path="/createAccount" exact component={SignUp} />
             <Route path="/home" component={Home} />
           </Switch>
+
+          <SystemToast />
         </div>
       </Router>
     </RecoilRoot>
