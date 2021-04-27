@@ -64,6 +64,20 @@ export function getProfile(uid, pass, fail) {
     });
 }
 
+export function getBibleReading(name, pass, fail) {
+    var ref = firebase.firestore().collection('schedule2').doc(name);
+
+    ref.get().then(doc => {
+        if (doc.exists) {
+            pass(doc.data());
+        } else {
+            fail("No document found");
+        }
+    }).catch(error => {
+        fail("Error getting document: " + error.code);
+    });
+}
+
 export function updateProfile(id, data) {
     console.log("user id: ", id);
     var ref = firebase.firestore().collection('users').doc(id);

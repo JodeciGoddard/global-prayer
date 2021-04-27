@@ -4,31 +4,45 @@ import Navbar from '../components/Navbar';
 import { useRecoilState } from 'recoil';
 import { userProfile, userToken } from '../State';
 import { Link, useHistory } from 'react-router-dom';
-import { getProfile } from '../api/Firebase';
+import { getProfile, getBibleReading } from '../api/Firebase';
 import profilePicture from '../images/img-person-placeholder.jpg';
 import Card from '../components/Card.js';
 import BibleImage from '../images/bible.jpg';
 import VeniceImage from '../images/venice.jpg';
 import AlpineImage from '../images/alpine.jpg';
 import LinkItem from '../components/LinkItem';
+import Loading from '../components/Loading';
 
 
 const Home = () => {
     const [profile, setProfile] = useRecoilState(userProfile);
     const [user, setUser] = useRecoilState(userToken);
 
+    const [reading, setReading] = useState();
+    const [todaysReading, setTodaysReading] = useState();
+
+    const [loading, setLoading] = useState(false);
     let history = useHistory();
 
     useEffect(() => {
+        setLoading(true);
+
         if (user !== 'none') {
             getProfile(user.uid, (data) => {
                 // console.log("profile set");
                 setProfile(data);
+                loadBibleReading(data);
             }, err => {
                 console.log(err);
             })
         }
-    }, [])
+    }, []);
+
+    useEffect(() => {
+        if (reading) {
+            loadTodaysReading();
+        }
+    }, [reading])
 
     let imageStyle = {
         backgroundImage: `url(${profile.profileImage ? profile.profileImage : profilePicture})`,
@@ -36,9 +50,64 @@ const Home = () => {
     }
 
     const smallTimeZone = (t) => {
+        if (!t) return;
         let z = t.split("WORLD TIME ZONE ");
 
         return z[1];
+    }
+
+    const loadBibleReading = (p) => {
+        if (!p) return;
+
+        getBibleReading(p.timezone, (data) => {
+            setReading(data);
+            setLoading(false);
+            // console.log("Readings: ", data);
+        }, (err) => {
+            alert(err);
+        })
+    }
+
+    const getBibleReadingByDay = day => {
+        if (!reading) return;
+
+        return reading["day-" + day];
+    }
+
+    const getBibleReadingByDate = (date) => {
+        if (!reading) return;
+
+        let value = Object.values(reading);
+        let key = Object.keys(reading);
+        for (let i = 0; i < value.length; i++) {
+            if (value[i].date === date) {
+                let d = key[i].split('day-');
+                return {
+                    ...value[i],
+                    day: d[1]
+                }
+            };
+
+        }
+
+        console.log('date not found');
+        return null;
+    }
+
+    const loadTodaysReading = () => {
+        const d = new Date().toLocaleDateString();
+
+        setTodaysReading(getBibleReadingByDate(d));
+    }
+
+    if (loading) {
+        return (
+            <div className="home-container">
+                <Loading
+                    Loading={loading}
+                />
+            </div>
+        )
     }
 
     return (
@@ -58,7 +127,7 @@ const Home = () => {
                     <p className="home-card-title">Time Zone</p>
                     <span>{profile && smallTimeZone(profile.timezone)}</span>
                     <p className="home-card-title">Daily Reading</p>
-                    <span>PSALM 123 - 132</span>
+                    <span>{todaysReading && todaysReading.scripture}</span>
                 </div>
                 <div className="home-card-footer">
                     <div className="home-card-downloadables">
@@ -73,13 +142,13 @@ const Home = () => {
             </div>
 
 
-            <Card title="Bible Readings" bg={BibleImage} >
-                <p className="home-bible-reading">Time Zone 0: 7pm - 8pm</p>
-                <p className="home-bible-reading small">Yesterday: PSALM 123- 132</p>
-                <p className="home-bible-reading small">Today: PSALM 133- 142</p>
-                <p className="home-bible-reading small">Tomorrow: PSALM 143- 150 + PROVERBS 1-2 </p>
+            {todaysReading && <Card title="Bible Readings" bg={BibleImage} >
+                <p className="home-bible-reading">{profile && profile.timezone}</p>
+                <p className="home-bible-reading small">Yesterday: {getBibleReadingByDay(parseInt(todaysReading.day) - 1).scripture}</p>
+                <p className="home-bible-reading small">Today: {todaysReading.scripture}</p>
+                <p className="home-bible-reading small">Tomorrow: {getBibleReadingByDay(parseInt(todaysReading.day) + 1).scripture}</p>
 
-            </Card>
+            </Card>}
 
             <Card title="Global Prayer Links" bg={VeniceImage} overlay="rgba(0,0,0,0.45)">
                 <LinkItem
