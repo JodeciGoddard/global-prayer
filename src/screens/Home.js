@@ -86,6 +86,9 @@ const Home = () => {
         ref.get().then(doc => {
             if (doc.exists) {
                 var values = Object.values(doc.data());
+                values.sort((a, b) => {
+                    return a.id - b.id;
+                });
                 setLinks(values);
             } else {
                 setLinks([]);
