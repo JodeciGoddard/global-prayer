@@ -1,7 +1,26 @@
 import React, { useState } from 'react';
 import '../css/Card.css';
+import { motion } from 'framer-motion';
 
-const Card = ({ children, title, bg, overlay, hideShowMore }) => {
+const containerVariants = {
+    init: {
+        x: '-100vw',
+        opacity: 0
+    },
+    anim: {
+        x: 0,
+        opacity: 1,
+        transition: {
+            duration: 0.4,
+            type: 'spring',
+            stiffness: 90
+        }
+    },
+
+
+}
+
+const Card = ({ children, title, bg, overlay, hideShowMore, }) => {
 
     let backgroundStyle = {
         backgroundImage: `url(${bg})`,
@@ -9,7 +28,11 @@ const Card = ({ children, title, bg, overlay, hideShowMore }) => {
     }
 
     return (
-        <div className="card-container" style={backgroundStyle}>
+        <motion.div
+            className="card-container"
+            style={backgroundStyle}
+            variants={containerVariants}
+        >
             <div className="card-header">
                 {title}
             </div>
@@ -17,7 +40,7 @@ const Card = ({ children, title, bg, overlay, hideShowMore }) => {
                 Show More
             </div>}
             {children}
-        </div>
+        </motion.div>
     );
 }
 
