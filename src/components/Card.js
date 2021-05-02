@@ -20,7 +20,7 @@ const containerVariants = {
 
 }
 
-const Card = ({ children, title, bg, overlay, hideShowMore, }) => {
+const Card = ({ children, title, bg, overlay, hideShowMore, onClick }) => {
 
     let backgroundStyle = {
         backgroundImage: `url(${bg})`,
@@ -30,6 +30,7 @@ const Card = ({ children, title, bg, overlay, hideShowMore, }) => {
     return (
         <motion.div
             className="card-container"
+            onClick={onClick}
             style={backgroundStyle}
             variants={containerVariants}
         >

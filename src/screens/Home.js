@@ -204,7 +204,7 @@ const Home = () => {
                 </motion.div>
 
 
-                <Card title="Bible Readings" bg={BibleImage} >
+                <Card title="Bible Readings" bg={BibleImage} onClick={() => history.push('/bible readings')} >
                     {todaysReading && <> <p className="home-bible-reading">{profile && profile.timezone}</p>
                         <p className="home-bible-reading small">Yesterday: {getBibleReadingByDay(parseInt(todaysReading.day) - 1).scripture}</p>
                         <p className="home-bible-reading small">Today: {todaysReading.scripture}</p>
