@@ -139,7 +139,7 @@ const Home = () => {
             transition: {
                 when: 'beforeChildren',
                 delay: 0.2,
-                staggerChildren: 0.5
+                staggerChildren: 0.3
             }
         }
 
@@ -156,7 +156,7 @@ const Home = () => {
             transition: {
                 duration: 0.4,
                 type: 'spring',
-                stiffness: 90
+                stiffness: 110
             }
         }
     }
